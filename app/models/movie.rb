@@ -11,11 +11,12 @@ class Movie < ApplicationRecord
     end
   end
 
-def self.find_in_tmdb(search_params, api_key = ENV['TMDB_API_KEY'] || 'test-key')    url = "https://api.themoviedb.org/3/search/movie?api_key=#{api_key}&query=#{URI.encode_www_form_component(search_params[:title])}"
-    url += "&language=en" if search_params[:language] == "en"
-    url += "&year=#{search_params[:release_year]}" if search_params[:release_year].present?
-    response = Faraday.get(url)
-    results = JSON.parse(response.body)["results"]
+def self.find_in_tmdb(search_params, api_key = ENV['TMDB_API_KEY'])
+  url = "https://api.themoviedb.org/3/search/movie?api_key=#{api_key}&query=#{URI.encode_www_form_component(search_params[:title])}"
+  url += "&language=#{search_params[:language]}" if search_params[:language].present? && search_params[:language] != "all"
+  url += "&year=#{search_params[:release_year]}" if search_params[:release_year].present?
+  response = Faraday.get(url)
+  results = JSON.parse(response.body)["results"]
 
     results.map do |result|
       Movie.new(
