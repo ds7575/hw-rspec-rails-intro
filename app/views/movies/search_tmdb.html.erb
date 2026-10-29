@@ -1,8 +1,7 @@
 <h1>Search in TMDb</h1>
 
 <div class="my-3">
-  <%# Part 1 here: fill in the route and method this form submits with, and give it the id tmdb_form %>
-  <%= form_tag do %>
+  <%= form_tag search_tmdb_path, method: :get, id: 'tmdb_form' do %>
     <%= label_tag 'movie_title_field', 'Movie Name', class: 'form-label' %>
     <%= text_field_tag 'title', nil, class: 'form-control', id: 'movie_title_field', placeholder: 'Manhunter' %>
     <%= label_tag 'movie_year_field', 'Release Year', class: 'form-label' %>
@@ -12,6 +11,7 @@
       <%= radio_button_tag 'language', 'en', false, class: 'form-check-input' %>
       <%= label_tag 'language_en', 'English Only', class: 'form-check-label' %>
     </div>
+
     <div class="form-check">
       <%= radio_button_tag 'language', 'all', true, class: 'form-check-input' %>
       <%= label_tag 'language_all', 'All Languages', class: 'form-check-label' %>
@@ -19,7 +19,25 @@
 
     <%= submit_tag 'Search', id: 'tmdb_submit', class: 'btn btn-warning' %>
     <%# Part 1 here: add a button that takes the user back to the movie list %>
-  <% end %>
+    <% end %>
+    <% if @movies.present? %>
+      <table id="search_movies">
+        <% @movies.each do |movie| %>
+          <tr>
+            <td><%= movie.title %></td>
+            <td><%= movie.release_date %></td>
+            <td>
+              <%= form_tag add_movie_path, method: :post do %>
+                <%= hidden_field_tag 'movie[title]', movie.title %>
+                <%= hidden_field_tag 'movie[release_date]', movie.release_date %>
+                <%= hidden_field_tag 'movie[rating]', movie.rating %>
+                <%= submit_tag 'Add Movie' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
 </div>
 
-<%# Part 5 here: show the search results in a table with id search_movies %>
+<%= link_to 'Back to Movie List', movies_path, class: 'btn btn-secondary' %>
