@@ -22,23 +22,28 @@
     <% end %>
     <% if @movies.present? %>
       <table id="search_movies">
-        <% @movies.each do |movie| %>
-          <tr>
-            <td><%= movie.title %></td>
-            <td><%= movie.rating %></td>
-            <td><%= movie.release_date %></td>
-            <td><%= movie.description %></td>
-            <td>
-              <%= form_tag add_movie_path, method: :post do %>
-                <%= hidden_field_tag 'movie[title]', movie.title %>
-                <%= hidden_field_tag 'movie[release_date]', movie.release_date %>
-                <%= hidden_field_tag 'movie[rating]', movie.rating %>
-                <%= hidden_field_tag 'movie[description]', movie.description %>
-                <%= submit_tag 'Add Movie' %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
+        <tbody>
+          <% @movies.each do |movie| %>
+            <tr>
+              <td><%= movie.title %></td>
+              <td><%= movie.rating %></td>
+              <td><%= movie.release_date %></td>
+              <td><%= movie.description %></td>
+              <td>
+                <%= form_tag add_movie_path, method: :post do %>
+                  <%= hidden_field_tag 'movie[title]', movie.title %>
+                  <%= hidden_field_tag 'movie[release_date]', movie.release_date %>
+                  <%= hidden_field_tag 'movie[rating]', movie.rating %>
+                  <%= hidden_field_tag 'movie[description]', movie.description %>
+                  <%= hidden_field_tag 'search[title]', params[:title] %>
+                  <%= hidden_field_tag 'search[release_year]', params[:release_year] %>
+                  <%= hidden_field_tag 'search[language]', params[:language] %>
+                  <%= submit_tag 'Add Movie' %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
       </table>
     <% end %>
 </div>
