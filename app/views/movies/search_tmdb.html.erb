@@ -25,8 +25,8 @@
         <% @movies.each do |movie| %>
           <tr>
             <td><%= movie.title %></td>
-            <td><%= movie.release_date %></td>
             <td><%= movie.rating %></td>
+            <td><%= movie.release_date %></td>
             <td><%= movie.description %></td>
             <td>
               <%= form_tag add_movie_path, method: :post do %>
