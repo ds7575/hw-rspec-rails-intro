@@ -97,7 +97,13 @@ class MoviesController < ApplicationController
   end
   def add_movie
     movie = Movie.create(movie_params)
-    redirect_to search_tmdb_path, notice: "#{movie.title} was successfully added to RottenPotatoes."
+    search_params = params[:search] || {}
+
+    redirect_to search_tmdb_path(
+      title: search_params[:title],
+      release_year: search_params[:release_year],
+      language: search_params[:language]
+    ), notice: "#{movie.title} was successfully added to RottenPotatoes."
   end
   private
     # Use callbacks to share common setup or constraints between actions.
