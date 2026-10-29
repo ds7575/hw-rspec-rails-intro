@@ -92,6 +92,7 @@ class MoviesController < ApplicationController
         language: params[:language]
       }
     )
+    flash[:alert] = "No movies found with given parameters!" if @movies.empty?
     end
   end
   def add_movie
