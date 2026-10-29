@@ -82,11 +82,17 @@ class MoviesController < ApplicationController
   end
 
   def search_tmdb
+    if params[:title].blank?
+      flash[:alert] = "Please fill in all required fields!"
+    else
       @movies = Movie.find_in_tmdb(
+      {
         title: params[:title],
         release_year: params[:release_year],
         language: params[:language]
-  )
+      }
+    )
+    end
   end
   def add_movie
     movie = Movie.create(movie_params)

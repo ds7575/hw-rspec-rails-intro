@@ -7,15 +7,16 @@ describe MoviesController, type: :controller do
         @fake_results = [double('movie1'), double('movie2')]
       end
       it 'calls the model method that performs TMDb search' do
-        expect(Movie).to receive(:find_in_tmdb).with('hardware').
-          and_return(@fake_results)
-        get :search_tmdb, params: { search_terms: 'hardware' }
+        expect(Movie).to receive(:find_in_tmdb).with(
+          { title: 'hardware', release_year: nil, language: nil }
+        ).and_return(@fake_results)
+        get :search_tmdb, params: { title: 'hardware' }
+        end
       end
       describe 'after valid search' do
         before :each do
           allow(Movie).to receive(:find_in_tmdb).and_return(@fake_results)
-          get :search_tmdb, params: { search_terms: 'hardware' }
-        end
+          get :search_tmdb, params: { title: 'hardware' }
         it 'selects the Search Results template for rendering' do
           expect(response).to render_template('search_tmdb')
         end
