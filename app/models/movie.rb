@@ -22,7 +22,8 @@ class Movie < ApplicationRecord
       Movie.new(
         title: result["title"],
         release_date: result["release_date"],
-        rating: "R"
+        rating: "R",
+        description: result["overview"]
       )
     end
   end
